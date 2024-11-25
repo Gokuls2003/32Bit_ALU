@@ -34,7 +34,30 @@ A Blank Document opens up into which the following source code can be typed down
 
 ## Source Code – Using Case Statement :
 
-(Include program here)
+~module alu_32bit_case(y,a,b,f);
+~input [31:0]a;
+~input [31:0]b;
+~input [2:0]f;
+~output reg [31:0]y;
+~always@(*)
+~begin
+~case(f)
+~3'b000:y=a&b; //AND Operation
+3'b001:y=a|b; //OR Operation
+3'b010:y=~(a&b); //NAND Operation
+3'b011:y=~(a|b); //NOR Operation
+3'b010:y=a+b; //Addition
+3'b011:y=a-b; //Subtraction
+3'b100:y=a*b; //Multiply
+default:y=32'bx;
+3'b100:y=a^b; //XOR Operation
+3'b101:y=~(a^b); //XNOR Operation
+3'b110:y=~a; //NOT of a
+3'b111:y=~b; //NOT of b
+endcase
+end
+endmodule
+endmodule
 
 Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
 
@@ -44,11 +67,32 @@ Similarly, create your test bench using gedit <filename_tb>.v or <filename_tb>.v
 
 ## Test Bench :
 
-(Include test bench program here)
-
+module alu_32bit_tb_case;
+reg [31:0]a;
+reg [31:0]b;
+reg [2:0]f;
+wire [31:0]y;
+alu_32bit_case test2(.y(y),.a(a),.b(b),.f(f));
+initial
+begin
+a=32'h00000000;
+b=32'h10101010;
+#10 f=3'b000;
+#10 f=3'b001;
+#10 f=3'b010;
+#10 f=3'b011;
+#10 f=3'b100;
+#10 f=3'b101;
+#10 f=3'b110;
+#10 f=3'b111;
+#50 $finish;
+end
+endmodule
 Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
 
-## Functional Simulation: 
+## Functional Simulation:
+![Screenshot 2024-11-25 170429](https://github.com/user-attachments/assets/631e1f99-793d-4840-ab9f-d341fdb0235b)
+
 
 Invoke the cadence environment by type the below commands 
 
@@ -63,6 +107,8 @@ After this you can see the window like below
 ### Fig 2: Invoke the Cadence Environment
 
 To Launch Simulation tool 
+![Screenshot 2024-11-25 170436](https://github.com/user-attachments/assets/4a4a20ea-fdd6-4f6c-9817-6c60768346d2)
+
 
 •linux:/> nclaunch -new& // “-new” option is used for invoking NCVERILOG for the first time for any design 
 
@@ -74,12 +120,16 @@ or
 It will invoke the nclaunch window for functional simulation we can compile,elaborate and simulate it using Multiple Step .
 
 ### Fig 3: Setting Multi-step simulation
+![Screenshot 2024-11-25 170456](https://github.com/user-attachments/assets/f6565515-4f29-434b-b7c6-c74d682209e3)
+
 
 Select Multiple Step and then select “Create cds.lib File” as shown in below figure 
 
 Click the cds.lib file and save the file by clicking on Save option 
 
 ### Fig 4:cds.lib file Creation
+![Screenshot 2024-11-25 170502](https://github.com/user-attachments/assets/4a25c89d-ca52-4623-ba07-67f9aad25c41)
+
 
 Save cds.lib file and select the correct option for cds.lib file format based on the HDL Language and Libraries used. 
 
@@ -93,6 +143,7 @@ A Click “OK” in the “nclaunch: Open Design Directory” window as shown in
 
 ### Fig 5: Selection of Don’t include any libraries
 
+
 A ‘NCLaunch window’ appears as shown in figure below
 
 Left side you can see the HDL files. Right side of the window has worklib and snapshots directories listed. 
@@ -102,6 +153,7 @@ Worklib is the directory where all the compiled codes are stored while Snapshot 
 To perform the function simulation, the following three steps are involved Compilation, Elaboration and Simulation. 
 
 ### Fig 6: Nclaunch Window
+![Screenshot 2024-11-25 170513](https://github.com/user-attachments/assets/b3d50ebd-c4ed-4290-a808-46552aa3231a)
 
 ## Step 1: Compilation:
 
@@ -126,6 +178,8 @@ Left side select the file and in Tools : launch verilog compiler with current se
 Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation 
 
 ### Fig 7: Compiled database in worklib
+![Screenshot 2024-11-25 170727](https://github.com/user-attachments/assets/82723f51-81d7-49ad-8249-41fea4f0bf4c)
+
 
 After compilation it will come under worklib you can see in right side window
 
@@ -160,6 +214,8 @@ Outputs: Elaborate database updated in mapped library if successful, generates r
 After elaboration the file will come under snapshot. Select the test bench and simulate it.
 
 ## Fig 8: Elaboration Launch Option
+![Screenshot 2024-11-25 170749](https://github.com/user-attachments/assets/775d5d8e-f5cd-420b-8360-e4e0274c4617)
+
 
 ## Step 3: Simulation: 
 
@@ -174,10 +230,13 @@ Simulation allow to dump design and test bench signals into a waveform
 Steps for simulation – Run the simulation command with simulator options
 
 ## Fig 9: Design Browser window for simulation
+![Screenshot 2024-11-25 170820](https://github.com/user-attachments/assets/044e6a93-8e50-4e82-93fb-2f96079cb541)
+
 
 ## Fig 10:Simulation Waveform Window
 
-## Fig 11:Simulation Waveform Window
+![Screenshot 2024-11-25 170831](https://github.com/user-attachments/assets/8b1dec35-4581-498b-b2ab-d6444a8afc3c)
+
 
 ### Result
 
